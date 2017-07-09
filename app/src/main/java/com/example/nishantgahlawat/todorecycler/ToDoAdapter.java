@@ -1,6 +1,7 @@
 package com.example.nishantgahlawat.todorecycler;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,6 +73,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         ToDoItem toDoItem = toDoItemArrayList.get(position);
 
         holder.ListItemTitleTV.setText(toDoItem.getTitle());
+        holder.ListItemTitleTV.setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/AmaticSC-Regular.ttf"));
+        holder.ListItemTitleTV.setTextSize(30);
+
         holder.checkBoxIB.setBackgroundResource(toDoItem.isDone()?android.R.drawable.checkbox_on_background:android.R.drawable.checkbox_off_background);
 
         holder.checkBoxIB.setOnClickListener(new View.OnClickListener() {

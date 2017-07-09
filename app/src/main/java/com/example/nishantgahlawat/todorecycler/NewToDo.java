@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -38,15 +40,23 @@ public class NewToDo extends AppCompatActivity {
         reminder.set(Calendar.SECOND,0);
         reminder.set(Calendar.MILLISECOND,0);
 
+        TextView RTV = (TextView)findViewById(R.id.ReminderTV);
+        RTV.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Caviar_Dreams_Bold.ttf"));
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/CaviarDreams.ttf");
         titleET = (EditText)findViewById(R.id.NewTitleET);
+        titleET.setTypeface(typeface);
         descriptionET = (EditText)findViewById(R.id.NewDescriptionET);
+        descriptionET.setTypeface(typeface);
 
         clearReminderButton = (Button)findViewById(R.id.ClearReminderButton);
 
         DatePickerET = (EditText)findViewById(R.id.DatePickerET);
         DatePickerET.setInputType(InputType.TYPE_NULL);
+        DatePickerET.setTypeface(typeface);
         TimePickerET = (EditText)findViewById(R.id.TimePickerET);
         TimePickerET.setInputType(InputType.TYPE_NULL);
+        TimePickerET.setTypeface(typeface);
 
         DatePickerET.setOnClickListener(new View.OnClickListener() {
             @Override

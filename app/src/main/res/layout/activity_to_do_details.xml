@@ -30,6 +30,7 @@
         android:id="@+id/DetailsTitleEditText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:inputType="textCapSentences"
         android:hint="@string/EnterTitle"
         android:layout_weight="0.7"/>
 
@@ -37,6 +38,7 @@
         android:id="@+id/DetailsDescriptionTextView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:inputType="textCapSentences"
         android:hint="@string/EnterDescription"
         android:gravity="start"
         android:layout_weight="2.5"/>
@@ -48,6 +50,7 @@
         android:layout_weight="0.5">
 
         <TextView
+            android:id="@+id/DetailsReminderTV"
             android:text="Reminder(Optional):"
             android:textSize="20sp"
             android:gravity="center"

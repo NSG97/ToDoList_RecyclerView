@@ -3,6 +3,7 @@ package com.example.nishantgahlawat.todorecycler;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -44,16 +45,27 @@ public class ToDoDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_details);
 
+        TextView RTV = (TextView)findViewById(R.id.DetailsReminderTV);
+        RTV.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Caviar_Dreams_Bold.ttf"));
+
         timeTextView = (TextView)findViewById(R.id.DetailsTimeTextView);
+        timeTextView.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/Montserrat-Regular.otf"));
+        timeTextView.setTextSize(15);
         doneButton = (ImageButton)findViewById(R.id.DetailsDoneStatusButton);
+
         clearReminderButton = (Button)findViewById(R.id.DetailsClearReminderButton);
 
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/CaviarDreams.ttf");
         titleET = (EditText)findViewById(R.id.DetailsTitleEditText);
+        titleET.setTypeface(typeface);
         descriptionET = (EditText)findViewById(R.id.DetailsDescriptionTextView);
+        descriptionET.setTypeface(typeface);
         DatePickerET = (EditText)findViewById(R.id.DetailsDatePickerET);
         DatePickerET.setInputType(InputType.TYPE_NULL);
+        DatePickerET.setTypeface(typeface);
         TimePickerET = (EditText)findViewById(R.id.DetailsTimePickerET);
         TimePickerET.setInputType(InputType.TYPE_NULL);
+        TimePickerET.setTypeface(typeface);
 
         Intent intent = getIntent();
 
@@ -69,7 +81,7 @@ public class ToDoDetails extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd - hh:mm a");
         String time = simpleDateFormat.format(new Date(toDoItem.getCreated()));
 
-        timeTextView.setText(time);
+        timeTextView.setText("Created:\n\n"+time);
 
         if(toDoItem.hasReminder()){
             DatePickerET.setText(new java.text.SimpleDateFormat("dd-MM-yyyy").format(toDoItem.getReminder()));

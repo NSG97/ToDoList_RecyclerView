@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
         toDoAdapter.setTitleTextViewLongClickListener(this);
 
         rvToDo.setAdapter(toDoAdapter);
-        rvToDo.setLayoutManager(new LinearLayoutManager(this));
+        rvToDo.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
+        rvToDo.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
         getNotificationItemUpdate();
 
@@ -201,27 +203,20 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onCheckBoxClickListener(int position) {
         ToDoItem toDoItem = toDoItemArrayList.get(position);
         toDoItem.toggleDone();
         toDoAdapter.notifyItemChanged(position);
+
+        ToDoOpenHelper toDoOpenHelper = ToDoOpenHelper.getToDoOpenHelperInstance(this);
+        SQLiteDatabase sqLiteDatabase = toDoOpenHelper.getReadableDatabase();
+
+        String selection = ToDoOpenHelper.TODO_ID+"="+toDoItem.getId();
+
+        ContentValues cv = new ContentValues();
+        cv.put(ToDoOpenHelper.TODO_DONE,toDoItem.isDone()?1:0);
+
+        sqLiteDatabase.update(ToDoOpenHelper.TODO_TABLE_NAME,cv,selection,null);
     }
 
     @Override
@@ -261,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
 
                 MainActivity.this.toDoItemArrayList.remove(toDoItem);
                 MainActivity.this.toDoAdapter.notifyItemRemoved(position);
+                MainActivity.this.toDoAdapter.notifyItemRangeChanged(position,toDoAdapter.getItemCount());
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

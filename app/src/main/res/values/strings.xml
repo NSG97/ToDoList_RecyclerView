@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ToDoRecycler</string>
+    <string name="delete_batch">Delete in Batch</string>
+    <string name="AddToDo">Add</string>
+    <string name="EnterDescription">Enter Description</string>
+    <string name="EnterTitle">Enter Title</string>
+    <string name="UpdateToDo">Update</string>
+</resources>

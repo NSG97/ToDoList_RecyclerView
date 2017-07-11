@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
         toDoAdapter.setTitleTextViewLongClickListener(this);
 
         rvToDo.setAdapter(toDoAdapter);
-        rvToDo.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
+        rvToDo.setLayoutManager(new LinearLayoutManager(this));
         rvToDo.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
         getNotificationItemUpdate();
@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
 
                     toDoItemArrayList.add(toDoItem);
                     toDoAdapter.notifyItemInserted(toDoItemArrayList.size());
+
+                    rvToDo.scrollToPosition(toDoItemArrayList.size());
 
                     if(toDoItem.hasReminder()){
                         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
                     toDoItemToChange.setReminder(toDoItem.getReminder());
 
                     toDoAdapter.notifyItemChanged(position);
+                    rvToDo.scrollToPosition(position);
 
                     ToDoOpenHelper toDoOpenHelper = ToDoOpenHelper.getToDoOpenHelperInstance(this);
                     SQLiteDatabase sqLiteDatabase = toDoOpenHelper.getReadableDatabase();
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
                         Intent intent = new Intent(MainActivity.this,AlarmReceiver.class);
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,(int)toDoItem.getId(),intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
+                        pendingIntent.cancel();
                         alarmManager.cancel(pendingIntent);
 
                         intent = new Intent(MainActivity.this,AlarmReceiver.class);
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
                 Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, (int) notifToDoItem.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                pendingIntent.cancel();
                 alarmManager.cancel(pendingIntent);
 
                 intent = new Intent(MainActivity.this, AlarmReceiver.class);
@@ -251,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements ToDoAdapter.Check
                     Intent intent = new Intent(MainActivity.this,AlarmReceiver.class);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,(int)toDoItem.getId(),intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
+                    pendingIntent.cancel();
                     alarmManager.cancel(pendingIntent);
                 }
 
